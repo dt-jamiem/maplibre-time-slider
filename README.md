@@ -10,6 +10,7 @@ An interactive map component with a time slider for visualizing geographic data 
 - **Smart color coding** - Automatically assigns distinct colors to categorical data (songs, names, categories)
 - **Interactive legend** - Collapsible legend showing color mappings for easy reference
 - **Data-driven sizing** - Visual importance based on data values (e.g., chart positions)
+- **Temporal fade effect** - Older entries gradually fade to 40% opacity while recent ones stay bright
 - **Support for multiple geometry types**: Points, LineStrings, and Polygons
 - **Click on features** to view detailed information in popups
 - **Full map controls**: Pan, zoom, and navigation
@@ -246,11 +247,21 @@ If your data includes a `chart_position` field (e.g., "#1", "#18", "#50"), the m
 
 This makes it immediately obvious which data points are most significant. The sizing interpolates smoothly between positions for natural-looking visualizations.
 
+### Temporal Fade Effect
+As time progresses, older data points gradually fade to create a beautiful "trailing" effect that emphasizes recent data while maintaining historical context:
+- **Recent entries**: Remain at 85% opacity (bright and prominent)
+- **Older entries**: Gradually fade to 40% opacity (subtle but visible)
+- **Fade window**: Automatically calculated based on the visible time range (last 30%)
+- **Smooth interpolation**: Linear fade creates natural-looking transitions
+
+When you play the animation, you'll see new entries appear brightly while older ones fade into the background. This creates a dynamic visualization where you can watch patterns emerge over time while maintaining awareness of the full historical context.
+
 ### Example: Music Chart Visualization
-The included Sonics timeline dataset demonstrates both features perfectly:
-- Each song gets its own color (visible in the legend)
-- Chart positions control size - #1 hits jump out as large prominent circles
-- Combined effect: You can instantly see WHAT charted (color) and HOW WELL (size)
+The included Sonics timeline dataset demonstrates all three features perfectly:
+- **Color** shows WHAT charted (each song has its own color from the legend)
+- **Size** shows HOW WELL it charted (#1 hits are large, #50 is small)
+- **Opacity** shows HOW RECENT (bright = current, faded = older)
+- **Combined effect**: Watch songs chart across cities with the most impactful recent hits standing out prominently
 
 ## Example Use Cases
 
