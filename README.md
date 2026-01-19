@@ -7,6 +7,9 @@ An interactive map component with a time slider for visualizing geographic data 
 ### Core Functionality
 - **Interactive time slider** to scrub through temporal data
 - **Play/pause animation** to watch changes unfold automatically
+- **Smart color coding** - Automatically assigns distinct colors to categorical data (songs, names, categories)
+- **Interactive legend** - Collapsible legend showing color mappings for easy reference
+- **Data-driven sizing** - Visual importance based on data values (e.g., chart positions)
 - **Support for multiple geometry types**: Points, LineStrings, and Polygons
 - **Click on features** to view detailed information in popups
 - **Full map controls**: Pan, zoom, and navigation
@@ -225,6 +228,30 @@ See `transform_sonics_data.js` for an example of converting wide-format CSV (wit
 }
 ```
 
+## Advanced Visualization Features
+
+### Automatic Color Coding
+The map automatically detects categorical properties in your data and assigns distinct colors to each unique value. It looks for common field names like:
+- `song` - Perfect for music chart data
+- `name` - For named entities or categories
+- `category`, `type`, `class` - For general categorization
+
+Each unique value gets assigned one of 12 vibrant, distinguishable colors. An interactive legend appears in the top-right corner showing the color mapping.
+
+### Data-Driven Sizing
+If your data includes a `chart_position` field (e.g., "#1", "#18", "#50"), the map automatically scales point sizes and border widths to show visual importance:
+- **Top positions** (e.g., #1-5): Large circles (14-16px) with thick borders (2.5-3px)
+- **Mid-range** (e.g., #10-20): Medium circles (8-11px) with standard borders (2px)
+- **Lower positions** (e.g., #50+): Smaller circles (6px) with thin borders (1.5px)
+
+This makes it immediately obvious which data points are most significant. The sizing interpolates smoothly between positions for natural-looking visualizations.
+
+### Example: Music Chart Visualization
+The included Sonics timeline dataset demonstrates both features perfectly:
+- Each song gets its own color (visible in the legend)
+- Chart positions control size - #1 hits jump out as large prominent circles
+- Combined effect: You can instantly see WHAT charted (color) and HOW WELL (size)
+
 ## Example Use Cases
 
 - **Historical city development** - Track urban growth over centuries
@@ -246,6 +273,8 @@ maplibre-time-slider/
 │   ├── components/
 │   │   ├── TimeSliderMap.jsx      # Main map component
 │   │   ├── TimeSliderMap.css
+│   │   ├── Legend.jsx             # Interactive color legend
+│   │   ├── Legend.css
 │   │   ├── FileUpload.jsx         # File upload with drag-and-drop
 │   │   └── FileUpload.css
 │   ├── utils/
@@ -268,6 +297,7 @@ maplibre-time-slider/
 │       ├── template_business_expansion.csv
 │       ├── template_personal_travel.csv
 │       └── template_project_timeline.csv
+├── transform_sonics_data.js       # Example data transformation script
 ├── DATA_FORMAT_GUIDE.md          # Complete format specifications
 ├── CSV_TEMPLATE_GUIDE.md         # Template quick reference
 ├── IMPORT_GUIDE.md               # Import instructions
