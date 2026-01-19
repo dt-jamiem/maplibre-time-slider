@@ -44,53 +44,73 @@ async function captureTimeline() {
   // Give MapLibre time to render
   await delay(2000);
 
-  // Check if custom data is loaded
-  const hasCustomData = await page.evaluate(() => {
-    const buttons = Array.from(document.querySelectorAll('button'));
-    return buttons.some(btn => btn.textContent.includes('✓ Custom Data'));
-  });
+  // Check if data is loaded by looking at the time slider
+  console.log('Checking if data is loaded...');
 
-  if (!hasCustomData) {
-    console.log('\n⚠️  Please load your data first:');
-    console.log('   1. Keep this script running');
-    console.log('   2. Open http://localhost:5174 in your browser');
-    console.log('   3. Click "📤 Upload Data"');
-    console.log('   4. Upload your CSV/GeoJSON file');
-    console.log('   5. This script will automatically continue once data is loaded\n');
-
-    // Wait for custom data to be loaded
-    await page.waitForFunction(
-      () => {
-        const buttons = Array.from(document.querySelectorAll('button'));
-        return buttons.some(btn => btn.textContent.includes('✓ Custom Data'));
-      },
-      { timeout: 300000 } // 5 minute timeout
-    );
-
-    console.log('✓ Data loaded! Starting capture...\n');
-
-    // Give it a moment to render
-    await delay(2000);
-  } else {
-    console.log('✓ Data already loaded\n');
-  }
-
-  // Get the time range from the slider
-  const timeInfo = await page.evaluate(() => {
+  let timeInfo = await page.evaluate(() => {
     const slider = document.querySelector('.time-slider');
     if (!slider) return null;
 
-    return {
-      min: parseFloat(slider.min),
-      max: parseFloat(slider.max),
-      current: parseFloat(slider.value)
-    };
+    const min = parseFloat(slider.min);
+    const max = parseFloat(slider.max);
+
+    // Valid data should have min < max and neither should be 0
+    if (min < max && min > 0) {
+      return {
+        min: min,
+        max: max,
+        current: parseFloat(slider.value)
+      };
+    }
+    return null;
   });
 
   if (!timeInfo) {
-    console.error('Could not find time slider. Make sure the map is loaded.');
-    await browser.close();
-    return;
+    console.log('\n⚠️  Please load your data:');
+    console.log('   1. Keep this script running');
+    console.log('   2. In your browser at http://localhost:5174');
+    console.log('   3. Click "📤 Upload Data" button');
+    console.log('   4. Upload your sonics_timeline_transformed.csv file');
+    console.log('   5. Waiting for data to load...\n');
+
+    // Poll every 2 seconds for data to be loaded
+    let attempts = 0;
+    while (!timeInfo && attempts < 150) { // 5 minutes max
+      await delay(2000);
+
+      timeInfo = await page.evaluate(() => {
+        const slider = document.querySelector('.time-slider');
+        if (!slider) return null;
+
+        const min = parseFloat(slider.min);
+        const max = parseFloat(slider.max);
+
+        if (min < max && min > 0) {
+          return {
+            min: min,
+            max: max,
+            current: parseFloat(slider.value)
+          };
+        }
+        return null;
+      });
+
+      attempts++;
+      if (attempts % 15 === 0) {
+        console.log(`   Still waiting... (${attempts * 2} seconds elapsed)`);
+      }
+    }
+
+    if (!timeInfo) {
+      console.error('\n✗ Timeout: Data was not loaded after 5 minutes.');
+      await browser.close();
+      return;
+    }
+
+    console.log('✓ Data detected! Starting capture...\n');
+    await delay(2000);
+  } else {
+    console.log('✓ Data already loaded\n');
   }
 
   console.log(`Time range: ${new Date(timeInfo.min).toDateString()} to ${new Date(timeInfo.max).toDateString()}`);
