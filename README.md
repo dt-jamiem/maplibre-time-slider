@@ -7,6 +7,8 @@ An interactive map component with a time slider for visualizing geographic data 
 ### Core Functionality
 - **Interactive time slider** to scrub through temporal data
 - **Play/pause animation** to watch changes unfold automatically
+- **Month-by-month navigation** - Step forward or backward one month at a time with dedicated buttons
+- **Fullscreen mode** - Expand the map to fill your entire browser viewport for immersive viewing
 - **Smart color coding** - Automatically assigns distinct colors to categorical data (songs, names, categories)
 - **Interactive legend** - Collapsible legend showing color mappings for easy reference
 - **Data-driven sizing** - Visual importance based on data values (e.g., chart positions)

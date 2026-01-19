@@ -10,6 +10,7 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
   const [currentTime, setCurrentTime] = useState(0);
   const [timeRange, setTimeRange] = useState({ min: 0, max: 0 });
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const playIntervalRef = useRef(null);
 
   // Extract time range from data
@@ -369,9 +370,19 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
   };
 
   return (
-    <div className="time-slider-map">
+    <div className={`time-slider-map ${isFullscreen ? 'fullscreen' : ''}`}>
       <div ref={mapContainer} className="map-container" />
       <Legend data={data} colorProperty="song" />
+
+      {isFullscreen && (
+        <button
+          onClick={() => setIsFullscreen(false)}
+          className="fullscreen-exit"
+          title="Exit Fullscreen"
+        >
+          ✕
+        </button>
+      )}
 
       <div className="time-controls">
         <button
@@ -415,6 +426,14 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
             {formatTime(currentTime)}
           </div>
         </div>
+
+        <button
+          onClick={() => setIsFullscreen(!isFullscreen)}
+          className="fullscreen-button"
+          title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+        >
+          {isFullscreen ? '⊖' : '⊕'}
+        </button>
       </div>
     </div>
   );

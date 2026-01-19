@@ -116,6 +116,71 @@
   color: #374151;
 }
 
+/* Fullscreen mode */
+.time-slider-map.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  border-radius: 0;
+  aspect-ratio: unset;
+}
+
+.fullscreen-exit {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #374151;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+}
+
+.fullscreen-exit:hover {
+  background: #f3f4f6;
+}
+
+.fullscreen-exit:active {
+  background: #e5e7eb;
+}
+
+.fullscreen-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.fullscreen-button:hover {
+  background: #2563eb;
+}
+
+.fullscreen-button:active {
+  background: #1d4ed8;
+}
+
 /* Make it embeddable friendly */
 :host {
   display: block;
