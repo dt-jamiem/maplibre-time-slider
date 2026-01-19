@@ -1,0 +1,81 @@
+[
+  {
+    "date": "1492-10-12",
+    "name": "Columbus First Landing",
+    "lat": 24.0,
+    "lon": -74.5,
+    "type": "point",
+    "description": "Columbus lands in the Bahamas",
+    "explorer": "Christopher Columbus"
+  },
+  {
+    "date": "1497-06-24",
+    "name": "Cabot North America Landing",
+    "lat": 45.5,
+    "lon": -62.0,
+    "type": "point",
+    "description": "John Cabot reaches North America",
+    "explorer": "John Cabot"
+  },
+  {
+    "date": "1513-04-02",
+    "name": "Ponce de León Florida",
+    "lat": 27.6648,
+    "lon": -80.0370,
+    "type": "point",
+    "description": "Ponce de León discovers Florida",
+    "explorer": "Juan Ponce de León"
+  },
+  {
+    "date": "1804-05-14",
+    "name": "Lewis & Clark Expedition",
+    "type": "line",
+    "description": "Lewis and Clark journey to Pacific",
+    "explorer": "Lewis and Clark",
+    "coordinates": [
+      [38.6270, -90.1994],
+      [41.2565, -95.9345],
+      [46.5958, -112.0270],
+      [45.5152, -122.6784]
+    ]
+  },
+  {
+    "date": "1849-01-24",
+    "name": "California Gold Rush",
+    "lat": 38.8088,
+    "lon": -120.8969,
+    "type": "point",
+    "description": "Gold discovered at Sutter's Mill",
+    "event": "Gold Rush"
+  },
+  {
+    "date": "1869-05-10",
+    "name": "Transcontinental Railroad",
+    "type": "line",
+    "description": "First transcontinental railroad completed",
+    "event": "Railroad",
+    "coordinates": [
+      [41.8781, -87.6298],
+      [41.2565, -95.9345],
+      [41.1455, -104.8019],
+      [40.7608, -111.8910],
+      [39.5296, -119.8138],
+      [37.7749, -122.4194]
+    ]
+  },
+  {
+    "date": "1803-04-30",
+    "name": "Louisiana Purchase",
+    "type": "polygon",
+    "description": "Territory acquired from France",
+    "area_sq_miles": 828000,
+    "coordinates": [
+      [29.0, -90.0],
+      [49.0, -90.0],
+      [49.0, -105.0],
+      [41.0, -111.0],
+      [29.0, -94.0],
+      [29.0, -90.0]
+    ]
+  }
+]

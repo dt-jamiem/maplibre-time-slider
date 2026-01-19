@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Slider Map - Embed Example</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f8fafc;
+    }
+
+    h1 {
+      color: #1e293b;
+      text-align: center;
+    }
+
+    .blog-post {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .blog-post h2 {
+      color: #334155;
+      margin-top: 0;
+    }
+
+    .blog-post p {
+      color: #475569;
+      line-height: 1.7;
+    }
+
+    time-slider-map {
+      display: block;
+      margin: 2rem 0;
+    }
+
+    .caption {
+      text-align: center;
+      color: #64748b;
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Example Blog Post with Embedded Map</h1>
+
+  <div class="blog-post">
+    <h2>The Growth of American Cities</h2>
+
+    <p>
+      The United States has a fascinating history of urban development, with cities
+      being founded at different times throughout the nation's expansion westward.
+      This interactive map shows when major American cities were founded, allowing
+      you to visualize the timeline of American urbanization.
+    </p>
+
+    <!-- Embedded Time Slider Map -->
+    <time-slider-map
+      data-url="./sample-cities.geojson"
+      center="-95,37"
+      zoom="3.5"
+      time-field="timestamp"
+    ></time-slider-map>
+
+    <p class="caption">
+      Interactive map showing American cities and their founding dates.
+      Use the time slider to see how cities appeared over time.
+    </p>
+
+    <p>
+      From the early colonial settlements like New York (founded as New Amsterdam in 1624)
+      to the western expansion cities like Las Vegas (1905), each city tells a story of
+      America's growth and development. Use the time slider below the map to travel through
+      history and see when each city was established.
+    </p>
+
+    <p>
+      The play button allows you to watch the animation of cities appearing chronologically,
+      providing a dynamic view of American urban expansion. Click on any city marker to
+      learn more about its founding and current population.
+    </p>
+  </div>
+
+  <div class="blog-post">
+    <h2>How to Embed This Map</h2>
+
+    <p>
+      You can easily embed this interactive map in your own blog posts or websites.
+      Simply include the JavaScript file and add the custom HTML element:
+    </p>
+
+    <pre><code>&lt;script src="embed.js">&lt;/script>
+
+&lt;time-slider-map
+  data-url="your-data.geojson"
+  center="-95,37"
+  zoom="3.5"
+  time-field="timestamp"
+>&lt;/time-slider-map></code></pre>
+
+    <p>
+      Your GeoJSON data should include a timestamp field in each feature's properties.
+      The component will automatically create an interactive time slider based on your data.
+    </p>
+  </div>
+
+  <!-- Load the embed script -->
+  <!-- In production, replace this with the path to your built embed.js -->
+  <script type="module" src="../src/embed.jsx"></script>
+
+  <!-- Sample data for demonstration -->
+  <script>
+    // Create a sample data file for the demo
+    const sampleData = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [-74.006, 40.7128] },
+          properties: {
+            name: 'New York',
+            timestamp: new Date('1624-01-01').getTime(),
+            population: 8336817,
+            description: 'Founded as New Amsterdam'
+          }
+        },
+        {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [-122.4194, 37.7749] },
+          properties: {
+            name: 'San Francisco',
+            timestamp: new Date('1776-01-01').getTime(),
+            population: 873965,
+            description: 'Founded as Spanish mission'
+          }
+        },
+        {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [-87.6298, 41.8781] },
+          properties: {
+            name: 'Chicago',
+            timestamp: new Date('1833-01-01').getTime(),
+            population: 2693976,
+            description: 'Incorporated as a city'
+          }
+        },
+        {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [-118.2437, 34.0522] },
+          properties: {
+            name: 'Los Angeles',
+            timestamp: new Date('1781-01-01').getTime(),
+            population: 3979576,
+            description: 'Founded by Spanish governor'
+          }
+        },
+        {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: [-95.3698, 29.7604] },
+          properties: {
+            name: 'Houston',
+            timestamp: new Date('1836-01-01').getTime(),
+            population: 2320268,
+            description: 'Named after Sam Houston'
+          }
+        }
+      ]
+    };
+
+    // Simulate the data URL by intercepting fetch requests
+    const originalFetch = window.fetch;
+    window.fetch = function(url, ...args) {
+      if (url.includes('sample-cities.geojson')) {
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(sampleData)
+        });
+      }
+      return originalFetch(url, ...args);
+    };
+  </script>
+</body>
+</html>

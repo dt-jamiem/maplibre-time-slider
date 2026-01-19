@@ -1,0 +1,16 @@
+date,latitude,longitude,name,population,description,region
+1624-01-01,40.7128,-74.0060,New York,33131,Founded as New Amsterdam,Northeast
+1630-01-01,42.3601,-71.0589,Boston,692600,Founded by Puritan colonists,Northeast
+1682-01-01,39.9526,-75.1652,Philadelphia,1584064,Founded by William Penn,Northeast
+1776-01-01,37.7749,-122.4194,San Francisco,873965,Founded as Spanish mission,West
+1781-01-01,34.0522,-118.2437,Los Angeles,3979576,Founded by Spanish governor,West
+1788-01-01,38.9072,-77.0369,Washington DC,705749,Capital established,South
+1819-01-01,32.3182,-86.9023,Montgomery,200022,Alabama state capital,South
+1833-01-01,41.8781,-87.6298,Chicago,2693976,Incorporated as a city,Midwest
+1836-01-01,29.7604,-95.3698,Houston,2320268,Named after Sam Houston,South
+1846-01-01,29.4241,-98.4936,San Antonio,1547253,Incorporated as a city,South
+1850-01-01,37.3382,-121.8863,San Jose,1030119,California gold rush city,West
+1858-01-01,39.7392,-104.9903,Denver,715522,Founded during gold rush,West
+1868-01-01,33.4484,-112.0740,Phoenix,1680992,Agricultural settlement,West
+1869-01-01,47.6062,-122.3321,Seattle,753675,Incorporated as a city,West
+1905-01-01,36.1699,-115.1398,Las Vegas,641903,Railroad auction founded city,West

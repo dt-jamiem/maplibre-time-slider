@@ -1,0 +1,8 @@
+date,latitude,longitude,name,description,store_type,employees,revenue
+2018-01-15,40.7128,-74.0060,NYC Headquarters,First location opened,Headquarters,50,1000000
+2018-06-01,37.7749,-122.4194,San Francisco Branch,West Coast expansion,Branch Office,25,500000
+2019-03-12,41.8781,-87.6298,Chicago Store,Midwest market entry,Retail Store,15,300000
+2019-09-22,29.7604,-95.3698,Houston Distribution,Distribution center,Warehouse,30,0
+2020-02-10,33.4484,-112.0740,Phoenix Office,Southwest presence,Branch Office,20,400000
+2020-11-05,47.6062,-122.3321,Seattle Tech Hub,Engineering center,Tech Office,75,2000000
+2021-05-18,39.7392,-104.9903,Denver Store,Mountain region,Retail Store,12,250000

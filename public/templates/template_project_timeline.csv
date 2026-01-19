@@ -1,0 +1,10 @@
+date,latitude,longitude,name,description,phase,status,budget
+2022-01-10,40.7589,-73.9851,Site Selection,Initial site survey and selection,Planning,Completed,50000
+2022-03-15,40.7589,-73.9851,Permits Approved,All construction permits obtained,Planning,Completed,25000
+2022-05-01,40.7589,-73.9851,Ground Breaking,Construction begins,Construction,Completed,0
+2022-08-12,40.7589,-73.9851,Foundation Complete,Foundation and basement finished,Construction,Completed,500000
+2022-11-20,40.7589,-73.9851,Frame Complete,Building frame erected,Construction,Completed,800000
+2023-02-28,40.7589,-73.9851,Roof Installed,Weather-tight envelope complete,Construction,Completed,300000
+2023-06-15,40.7589,-73.9851,Interior Fit-out,Interior walls and systems,Construction,In Progress,600000
+2023-09-30,40.7589,-73.9851,Final Inspection,Building inspection scheduled,Completion,Planned,50000
+2023-11-01,40.7589,-73.9851,Grand Opening,Project completion and opening,Completion,Planned,100000

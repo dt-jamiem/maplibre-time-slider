@@ -1,0 +1,165 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [2.3522, 48.8566]
+      },
+      "properties": {
+        "timestamp": -5364662400000,
+        "name": "Eiffel Tower Construction Begins",
+        "description": "Construction of the iconic Eiffel Tower begins in Paris",
+        "year": 1887,
+        "category": "Architecture",
+        "city": "Paris"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-0.1276, 51.5074]
+      },
+      "properties": {
+        "timestamp": -2208988800000,
+        "name": "First London Underground Opens",
+        "description": "World's first underground railway opens",
+        "year": 1900,
+        "category": "Transportation",
+        "city": "London"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-73.9857, 40.7484]
+      },
+      "properties": {
+        "timestamp": -1893456000000,
+        "name": "Empire State Building Completed",
+        "description": "World's tallest building at the time",
+        "year": 1931,
+        "category": "Architecture",
+        "city": "New York"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [139.6917, 35.6895]
+      },
+      "properties": {
+        "timestamp": -1262304000000,
+        "name": "Tokyo Olympics Announced",
+        "description": "Tokyo selected to host 1940 Olympics (later cancelled)",
+        "year": 1936,
+        "category": "Sports",
+        "city": "Tokyo"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [151.2093, -33.8688]
+      },
+      "properties": {
+        "timestamp": 244425600000,
+        "name": "Sydney Opera House Opens",
+        "description": "Iconic performing arts center opens",
+        "year": 1973,
+        "category": "Architecture",
+        "city": "Sydney"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-0.1276, 51.5074],
+          [2.3522, 48.8566],
+          [4.9041, 52.3676],
+          [13.4050, 52.5200],
+          [12.4964, 41.9028]
+        ]
+      },
+      "properties": {
+        "timestamp": -1577923200000,
+        "name": "Grand European Tour Route",
+        "description": "Popular 19th century travel route through Europe",
+        "year": 1920,
+        "category": "Travel"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [13.0883, 47.6965],
+          [16.5796, 47.6965],
+          [16.5796, 49.0205],
+          [13.0883, 49.0205],
+          [13.0883, 47.6965]
+        ]]
+      },
+      "properties": {
+        "timestamp": -1577923200000,
+        "name": "Austrian Empire Territory (simplified)",
+        "description": "Approximate territory of Austrian Empire",
+        "year": 1920,
+        "category": "Political"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [-43.1729, -22.9068]
+      },
+      "properties": {
+        "timestamp": 1173312000000,
+        "name": "Pan American Games Rio",
+        "description": "Rio de Janeiro hosts Pan American Games",
+        "year": 2007,
+        "category": "Sports",
+        "city": "Rio de Janeiro"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.4074, 39.9042]
+      },
+      "properties": {
+        "timestamp": 1217548800000,
+        "name": "Beijing Olympics",
+        "description": "Beijing hosts Summer Olympics",
+        "year": 2008,
+        "category": "Sports",
+        "city": "Beijing"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [55.2708, 25.2048]
+      },
+      "properties": {
+        "timestamp": 1325376000000,
+        "name": "Burj Khalifa World's Tallest",
+        "description": "Burj Khalifa remains world's tallest building",
+        "year": 2012,
+        "category": "Architecture",
+        "city": "Dubai"
+      }
+    }
+  ]
+}

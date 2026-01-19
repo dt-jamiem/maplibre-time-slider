@@ -1,0 +1,6 @@
+date,latitude,longitude,name,description,category
+2020-01-15,40.7128,-74.0060,Example Location 1,This is where something happened,Event Type A
+2020-03-22,37.7749,-122.4194,Example Location 2,Another important event,Event Type B
+2020-06-10,41.8781,-87.6298,Example Location 3,Something else occurred here,Event Type A
+2021-02-18,29.7604,-95.3698,Example Location 4,Replace this with your data,Event Type C
+2021-09-05,47.6062,-122.3321,Example Location 5,Delete these rows and add yours,Event Type B

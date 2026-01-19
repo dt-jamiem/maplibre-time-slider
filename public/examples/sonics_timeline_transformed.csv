@@ -1,0 +1,52 @@
+date,latitude,longitude,song,city,state,chart_position
+1965-01-01,47.2529,-122.4443,The Witch,Tacoma,Washington,#1
+1965-03-01,47.2529,-122.4443,The Witch,Tacoma,Washington,#1
+1965-01-01,47.6062,-122.3321,The Witch,Seattle,Washington,#2
+1965-03-01,49.2827,-123.1207,The Witch,Vancouver,British Columbia,#2
+1965-02-01,38.5816,-121.4944,The Witch,Sacramento,California,#18
+1965-03-01,38.5816,-121.4944,The Witch,Sacramento,California,#4
+1965-03-01,43.615,-116.2023,The Witch,Boise,Idaho,#20
+1965-03-01,44.5365,-122.907,The Witch,Lebanon,Oregon,#16
+1965-04-01,37.7749,-122.4194,The Witch,San Francisco,California,#27
+1965-04-01,44.0582,-121.3153,The Witch,Bend,Oregon,#18
+1965-04-01,44.9429,-123.0351,The Witch,Salem,Oregon,#8
+1965-04-01,37.3382,-121.8863,The Witch,San Jose,California,#11
+1965-05-01,46.4165,-117.0177,The Witch,Lewiston,Idaho,#9
+1965-08-01,38.028,-121.8847,The Witch,Pittsburg,California,#10
+1965-03-01,47.2529,-122.4443,Psycho,Tacoma,Washington,#1
+1965-03-01,47.6062,-122.3321,Psycho,Seattle,Washington,#4
+1965-03-01,49.2827,-123.1207,Psycho,Vancouver,British Columbia,#2
+1965-04-01,44.0582,-121.3153,Psycho,Bend,Oregon,#18
+1965-04-01,46.9809,-123.8894,Psycho,Hoquiam,Washington,#2
+1965-05-01,47.2529,-122.4443,Hustler,Tacoma,Washington,#2
+1965-04-01,47.6062,-122.3321,Hustler,Seattle,Washington,#42
+1965-05-01,46.9809,-123.8894,Hustler,Hoquiam,Washington,#16
+1965-05-01,47.2529,-122.4443,Boss Hoss,Tacoma,Washington,#2
+1965-07-01,47.6062,-122.3321,Don't Be Afraid of the Dark,Seattle,Washington,#29
+1965-07-01,46.9809,-123.8894,Don't Be Afraid of the Dark,Hoquiam,Washington,#16
+1966-08-01,47.6062,-122.3321,Love Lights,Seattle,Washington,#13
+1966-08-01,46.2856,-119.2844,Love Lights,Richland,Washington,#10
+1966-08-01,47.6062,-122.3321,You've Got Your Head On Backwards,Seattle,Washington,#10
+1966-07-01,46.9809,-123.8894,You've Got Your Head On Backwards,Hoquiam,Washington,#20
+1966-09-01,49.2827,-123.1207,You've Got Your Head On Backwards,Vancouver,British Columbia,#15
+1966-08-01,21.3099,-157.8581,You've Got Your Head On Backwards,Honolulu,Hawaii,HB
+1966-08-01,40.6084,-75.4902,You've Got Your Head On Backwards,Allentown,Pennsylvania,HB
+1966-08-01,46.2856,-119.2844,You've Got Your Head On Backwards,Richland,Washington,#10
+1966-09-01,42.8864,-78.8784,You've Got Your Head On Backwards,Buffalo,New York,#23
+1966-09-01,41.4993,-81.6944,You've Got Your Head On Backwards,Cleveland,Ohio,#43
+1966-09-01,40.7608,-111.891,You've Got Your Head On Backwards,Salt Lake City,Utah,#18
+1966-10-01,42.0883,-87.9806,You've Got Your Head On Backwards,Arlington Heights,Illinois,HB
+1966-10-01,31.15,-81.4915,You've Got Your Head On Backwards,Bruswick,Georgia,HB
+1966-12-01,43.615,-116.2023,The Witch,Boise,Idaho,#7
+1966-11-01,44.0521,-123.0868,The Witch,Eugene,Oregon,#12
+1966-11-01,46.9809,-123.8894,The Witch,Hoquiam,Washington,#19
+1966-11-01,42.7325,-84.5555,The Witch,Lansing,Michigan,#59
+1966-10-01,46.4165,-117.0177,The Witch,Lewiston,Idaho,#44
+1966-12-01,36.6002,-121.8947,The Witch,Monterey,California,#29
+1966-12-01,28.5383,-81.3792,The Witch,Orlando,Florida,#26
+1966-12-01,40.4406,-79.9959,The Witch,Pittsburgh,Pennsylvania,#31
+1967-01-01,40.7608,-111.891,The Witch,Salt Lake City,Utah,#1
+1966-12-01,34.4208,-119.6982,The Witch,Santa Barbara,California,HB
+1967-04-01,28.5383,-81.3792,Psycho,Orlando,Florida,#1
+1967-03-01,48.7519,-122.4787,Maintaining My Cool,Bellingham,Washington,#49
+1965-12-01,47.2529,-122.4443,Louie Louie,Tacoma,Washington,#4
