@@ -2,12 +2,25 @@ import puppeteer from 'puppeteer';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { mkdirSync, existsSync } from 'fs';
+import readline from 'readline';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Helper function to wait/delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+// Helper to wait for user input
+const waitForEnter = () => new Promise((resolve) => {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+  rl.question('Press ENTER when your data is loaded...', () => {
+    rl.close();
+    resolve();
+  });
+});
 
 async function captureTimeline() {
   console.log('Starting timeline capture...');
@@ -44,95 +57,35 @@ async function captureTimeline() {
   // Give MapLibre time to render
   await delay(2000);
 
-  // Check if data is loaded by looking at the time slider
-  console.log('Checking if data is loaded...\n');
+  // Prompt user to load data
+  console.log('\n📋 INSTRUCTIONS:');
+  console.log('   1. Open http://localhost:5174 in your browser');
+  console.log('   2. Click "📤 Upload Data" button');
+  console.log('   3. Upload your sonics_timeline_transformed.csv file');
+  console.log('   4. Wait for the map to show your data');
+  console.log('   5. Come back here and press ENTER\n');
 
-  // First, let's see what values we have
-  const sliderDebug = await page.evaluate(() => {
-    const slider = document.querySelector('.time-slider');
-    if (!slider) return { exists: false };
+  await waitForEnter();
 
-    return {
-      exists: true,
-      min: slider.min,
-      max: slider.max,
-      value: slider.value
-    };
-  });
+  console.log('\n✓ Proceeding with capture...\n');
+  await delay(2000);
 
-  console.log('Slider debug info:', sliderDebug);
-
+  // Get the time range from the slider
   let timeInfo = await page.evaluate(() => {
     const slider = document.querySelector('.time-slider');
     if (!slider) return null;
 
-    const min = parseFloat(slider.min);
-    const max = parseFloat(slider.max);
-
-    // Valid data should have min < max and neither should be 0
-    if (min < max && min > 0) {
-      return {
-        min: min,
-        max: max,
-        current: parseFloat(slider.value)
-      };
-    }
-    return null;
+    return {
+      min: parseFloat(slider.min),
+      max: parseFloat(slider.max),
+      current: parseFloat(slider.value)
+    };
   });
 
-  if (!timeInfo) {
-    console.log('\n⚠️  Please load your data:');
-    console.log('   1. Keep this script running');
-    console.log('   2. In your browser at http://localhost:5174');
-    console.log('   3. Click "📤 Upload Data" button');
-    console.log('   4. Upload your sonics_timeline_transformed.csv file');
-    console.log('   5. Waiting for data to load...\n');
-
-    // Poll every 2 seconds for data to be loaded
-    let attempts = 0;
-    while (!timeInfo && attempts < 45) { // 90 seconds max
-      await delay(2000);
-
-      const debugInfo = await page.evaluate(() => {
-        const slider = document.querySelector('.time-slider');
-        if (!slider) return { exists: false };
-
-        const min = parseFloat(slider.min);
-        const max = parseFloat(slider.max);
-
-        return {
-          exists: true,
-          min: min,
-          max: max,
-          value: parseFloat(slider.value),
-          isValid: (min < max && min > 0)
-        };
-      });
-
-      if (debugInfo.isValid) {
-        timeInfo = {
-          min: debugInfo.min,
-          max: debugInfo.max,
-          current: debugInfo.value
-        };
-      }
-
-      attempts++;
-      if (attempts % 5 === 0) {
-        console.log(`   Still waiting... (${attempts * 2}s) - Slider: min=${debugInfo.min}, max=${debugInfo.max}, valid=${debugInfo.isValid}`);
-      }
-    }
-
-    if (!timeInfo) {
-      console.error('\n✗ Timeout: Data was not loaded after 90 seconds.');
-      await browser.close();
-      return;
-    }
-
-    console.log('✓ Data detected! Starting capture...\n');
-    await delay(2000);
-  } else {
-    console.log('✓ Data already loaded\n');
+  if (!timeInfo || timeInfo.min === timeInfo.max) {
+    console.error('✗ Could not find valid time slider data. Make sure the data is loaded.');
+    await browser.close();
+    return;
   }
 
   console.log(`Time range: ${new Date(timeInfo.min).toDateString()} to ${new Date(timeInfo.max).toDateString()}`);

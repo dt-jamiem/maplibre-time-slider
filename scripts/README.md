@@ -15,16 +15,18 @@ This script captures high-resolution screenshots of the map at monthly intervals
    npm run dev
    ```
 
-2. **Load your data** in the browser:
-   - Open http://localhost:5174
-   - Click "📤 Upload Data"
-   - Upload your Sonics timeline CSV (or any other data file)
-   - Wait for the map to load
-
-3. **Run the capture script** (in another terminal):
+2. **Run the capture script** (in another terminal):
    ```bash
    npm run capture
    ```
+
+3. **Follow the on-screen instructions**:
+   - The script will show you instructions
+   - Open http://localhost:5174 in your browser
+   - Click "📤 Upload Data"
+   - Upload your Sonics timeline CSV (or any other data file)
+   - Wait for the map to show your data
+   - Go back to the terminal and press ENTER
 
 4. **Find your screenshots**:
    - Screenshots will be saved to `screenshots/` folder
