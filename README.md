@@ -7,6 +7,7 @@ An interactive map component with a time slider for visualizing geographic data 
 ### Core Functionality
 - **Interactive time slider** to scrub through temporal data
 - **Play/pause animation** to watch changes unfold automatically
+- **Dynamic zoom** - Map automatically adjusts to show all visible data, creating cinematic reveal effects
 - **Smart color coding** - Automatically assigns distinct colors to categorical data (songs, names, categories)
 - **Interactive legend** - Collapsible legend showing color mappings for easy reference
 - **Data-driven sizing** - Visual importance based on data values (e.g., chart positions)
@@ -275,12 +276,23 @@ As time progresses, older data points gradually fade to create a beautiful "trai
 
 When you play the animation, you'll see new entries appear brightly while older ones fade into the background. This creates a dynamic visualization where you can watch patterns emerge over time while maintaining awareness of the full historical context.
 
+### Dynamic Zoom
+The map intelligently adjusts its zoom level and center as data appears over time, creating a cinematic storytelling effect:
+- **Starts zoomed in** on the initial data region (e.g., Tacoma/Seattle for Sonics data)
+- **Automatically expands view** as new data points appear in different locations
+- **Smooth 1-second transitions** using MapLibre's fitBounds with easing
+- **Smart padding** to account for legend and controls
+- **Maximum zoom limit** to maintain geographic context (level 10)
+
+This creates a natural reveal effect where viewers watch the geographic scope expand as the timeline progresses, making patterns of spread and diffusion immediately visible.
+
 ### Example: Music Chart Visualization
-The included Sonics timeline dataset demonstrates all three features perfectly:
+The included Sonics timeline dataset demonstrates all four visual dimensions perfectly:
 - **Color** shows WHAT charted (each song has its own color from the legend)
 - **Size** shows HOW WELL it charted (#1 hits are large, #50 is small)
 - **Opacity** shows HOW RECENT (bright = current, faded = older)
-- **Combined effect**: Watch songs chart across cities with the most impactful recent hits standing out prominently
+- **Zoom** shows WHERE the action is (starts tight on Tacoma, expands to show regional spread)
+- **Combined effect**: Watch The Witch dominate the Pacific Northwest, starting in Seattle/Tacoma and spreading to California, with the map cinematically adjusting to reveal the full geographic impact
 
 ## Example Use Cases
 
