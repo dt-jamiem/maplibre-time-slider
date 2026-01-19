@@ -31,9 +31,9 @@ async function captureTimeline() {
     mkdirSync(screenshotsDir, { recursive: true });
   }
 
-  // Launch browser
+  // Launch browser (visible so you can interact with it)
   const browser = await puppeteer.launch({
-    headless: 'new',
+    headless: false, // Make browser visible!
     defaultViewport: {
       width: 1920,
       height: 1440,
@@ -59,16 +59,18 @@ async function captureTimeline() {
 
   // Prompt user to load data
   console.log('\n📋 INSTRUCTIONS:');
-  console.log('   1. Open http://localhost:5174 in your browser');
-  console.log('   2. Click "📤 Upload Data" button');
-  console.log('   3. Upload your sonics_timeline_transformed.csv file');
-  console.log('   4. Wait for the map to show your data');
-  console.log('   5. Come back here and press ENTER\n');
+  console.log('   A Chrome browser window should have opened automatically.');
+  console.log('   In that browser window:');
+  console.log('   1. Click "📤 Upload Data" button');
+  console.log('   2. Upload your sonics_timeline_transformed.csv file');
+  console.log('   3. Wait for the map to show your data');
+  console.log('   4. Come back to this terminal and press ENTER\n');
 
   await waitForEnter();
 
-  console.log('\n✓ Proceeding with capture...\n');
-  await delay(2000);
+  console.log('\n✓ Proceeding with capture...');
+  console.log('Waiting for map to fully update...\n');
+  await delay(5000); // Give more time for the map to update
 
   // Get the time range from the slider
   let timeInfo = await page.evaluate(() => {
@@ -82,13 +84,29 @@ async function captureTimeline() {
     };
   });
 
+  console.log('Slider values:', timeInfo);
+
   if (!timeInfo || timeInfo.min === timeInfo.max) {
     console.error('✗ Could not find valid time slider data. Make sure the data is loaded.');
     await browser.close();
     return;
   }
 
-  console.log(`Time range: ${new Date(timeInfo.min).toDateString()} to ${new Date(timeInfo.max).toDateString()}`);
+  // Show dates for verification
+  const minDate = new Date(timeInfo.min);
+  const maxDate = new Date(timeInfo.max);
+  console.log(`Time range: ${minDate.toDateString()} to ${maxDate.toDateString()}`);
+  console.log(`Raw values: min=${timeInfo.min}, max=${timeInfo.max}\n`);
+
+  // Ask for confirmation if the dates look wrong
+  if (minDate.getFullYear() < 1900 || minDate.getFullYear() > 2100) {
+    console.error('⚠️  Warning: The dates look incorrect!');
+    console.error(`   Found year: ${minDate.getFullYear()}`);
+    console.error('   Make sure the data is fully loaded in the browser.');
+    console.error('   Try refreshing the page and uploading again.\n');
+    await browser.close();
+    return;
+  }
 
   // Calculate monthly intervals
   const startDate = new Date(timeInfo.min);
