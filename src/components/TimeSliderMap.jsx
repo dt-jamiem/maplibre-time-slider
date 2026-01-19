@@ -400,7 +400,7 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           }
           return prev + step;
         });
-      }, 100);
+      }, 200); // 200ms interval = half speed of original 100ms
     } else {
       if (playIntervalRef.current) {
         clearInterval(playIntervalRef.current);
