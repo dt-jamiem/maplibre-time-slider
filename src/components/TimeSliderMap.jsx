@@ -227,7 +227,7 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           }
         });
 
-        // Detect the city/location field name
+        // Calculate city data point counts for prioritization
         let cityField = null;
         const locationFields = ['city', 'location', 'station', 'place', 'name'];
         for (const field of locationFields) {
@@ -237,57 +237,35 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           }
         }
 
-        // Create a separate source for all cities (not filtered by time)
         if (cityField) {
-          // Extract unique cities with their coordinates and count occurrences
-          const cityMap = new Map();
+          // Count data points per city for the entire dataset
           const cityCounts = new Map();
-
           data.features.forEach(feature => {
             if (feature.geometry.type === 'Point') {
               const cityName = feature.properties[cityField];
               if (cityName) {
                 cityCounts.set(cityName, (cityCounts.get(cityName) || 0) + 1);
-
-                if (!cityMap.has(cityName)) {
-                  cityMap.set(cityName, {
-                    type: 'Feature',
-                    geometry: feature.geometry,
-                    properties: {
-                      [cityField]: cityName,
-                      dataPointCount: 0  // Will be updated below
-                    }
-                  });
-                }
               }
             }
           });
 
-          // Update counts and calculate max for priority scaling
+          // Add counts and priority to each feature
           const maxCount = Math.max(...cityCounts.values());
-          cityMap.forEach((feature, cityName) => {
-            const count = cityCounts.get(cityName) || 0;
-            feature.properties.dataPointCount = count;
-            // Priority: higher count = higher priority (inverse of count for sort-key)
-            feature.properties.priority = maxCount - count;
+          data.features.forEach(feature => {
+            if (feature.properties[cityField]) {
+              const cityName = feature.properties[cityField];
+              const count = cityCounts.get(cityName) || 1;
+              feature.properties.dataPointCount = count;
+              feature.properties.priority = maxCount - count;
+            }
           });
 
-          const allCitiesData = {
-            type: 'FeatureCollection',
-            features: Array.from(cityMap.values())
-          };
-
-          // Add source for all cities
-          mapInstance.addSource('all-cities', {
-            type: 'geojson',
-            data: allCitiesData
-          });
-
-          // Add city labels in dark font with priority sorting
+          // Add city labels that only appear when data is visible
           mapInstance.addLayer({
             id: 'city-labels',
             type: 'symbol',
-            source: 'all-cities',
+            source: 'time-data',
+            filter: ['==', '$type', 'Point'],
             layout: {
               'text-field': ['get', cityField],
               'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
@@ -303,8 +281,8 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
               'text-offset': [0, 1.5],
               'text-anchor': 'top',
               'text-allow-overlap': false,
-              'text-optional': false,  // Don't hide text when icon is hidden
-              'symbol-sort-key': ['get', 'priority']  // Lower priority number = displayed first
+              'text-optional': false,
+              'symbol-sort-key': ['get', 'priority']  // Lower priority = displayed first
             },
             paint: {
               'text-color': '#1f2937',  // Dark gray, almost black
