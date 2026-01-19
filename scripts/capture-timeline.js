@@ -90,7 +90,7 @@ async function captureTimeline() {
 
     // Poll every 2 seconds for data to be loaded
     let attempts = 0;
-    while (!timeInfo && attempts < 150) { // 5 minutes max
+    while (!timeInfo && attempts < 45) { // 90 seconds max
       await delay(2000);
 
       const debugInfo = await page.evaluate(() => {
@@ -124,7 +124,7 @@ async function captureTimeline() {
     }
 
     if (!timeInfo) {
-      console.error('\n✗ Timeout: Data was not loaded after 5 minutes.');
+      console.error('\n✗ Timeout: Data was not loaded after 90 seconds.');
       await browser.close();
       return;
     }
