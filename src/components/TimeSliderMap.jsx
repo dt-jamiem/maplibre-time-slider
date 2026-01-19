@@ -237,13 +237,39 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           }
         }
 
-        // Add city labels in dark font
+        // Create a separate source for all cities (not filtered by time)
         if (cityField) {
+          // Extract unique cities with their coordinates
+          const cityMap = new Map();
+          data.features.forEach(feature => {
+            if (feature.geometry.type === 'Point') {
+              const cityName = feature.properties[cityField];
+              if (cityName && !cityMap.has(cityName)) {
+                cityMap.set(cityName, {
+                  type: 'Feature',
+                  geometry: feature.geometry,
+                  properties: { [cityField]: cityName }
+                });
+              }
+            }
+          });
+
+          const allCitiesData = {
+            type: 'FeatureCollection',
+            features: Array.from(cityMap.values())
+          };
+
+          // Add source for all cities
+          mapInstance.addSource('all-cities', {
+            type: 'geojson',
+            data: allCitiesData
+          });
+
+          // Add city labels in dark font (always visible)
           mapInstance.addLayer({
             id: 'city-labels',
             type: 'symbol',
-            source: 'time-data',
-            filter: ['==', '$type', 'Point'],
+            source: 'all-cities',
             layout: {
               'text-field': ['get', cityField],
               'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
