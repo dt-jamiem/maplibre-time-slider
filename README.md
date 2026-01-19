@@ -11,6 +11,7 @@ An interactive map component with a time slider for visualizing geographic data 
 - **Interactive legend** - Collapsible legend showing color mappings for easy reference
 - **Data-driven sizing** - Visual importance based on data values (e.g., chart positions)
 - **Temporal fade effect** - Older entries gradually fade to 40% opacity while recent ones stay bright
+- **Cinematic 4:3 aspect ratio** - Wider map format perfect for showcasing geographic spread
 - **Support for multiple geometry types**: Points, LineStrings, and Polygons
 - **Click on features** to view detailed information in popups
 - **Full map controls**: Pan, zoom, and navigation
