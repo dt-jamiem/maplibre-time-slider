@@ -22,10 +22,15 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
       .sort((a, b) => a - b);
 
     if (timestamps.length > 0) {
-      const min = timestamps[0];
-      const max = timestamps[timestamps.length - 1];
-      setTimeRange({ min, max });
-      setCurrentTime(min);
+      const dataMin = timestamps[0];
+      const dataMax = timestamps[timestamps.length - 1];
+
+      // Start one month before the first data entry
+      const oneMonth = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
+      const startTime = dataMin - oneMonth;
+
+      setTimeRange({ min: startTime, max: dataMax });
+      setCurrentTime(startTime);
     }
   }, [data, timeField]);
 
