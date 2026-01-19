@@ -260,6 +260,14 @@ The map automatically detects categorical properties in your data and assigns di
 
 An interactive legend appears in the top-right corner showing the color mapping, sorted by frequency with the most common items at the top.
 
+### Prominent City Labels
+When your data includes location information (fields like `city`, `location`, `station`, or `place`), the map automatically displays these labels in a dark, bold font that stands out from the base map. Features include:
+- **Dark gray text** (#1f2937) for high contrast and readability
+- **White halo effect** around labels to ensure visibility against any background
+- **Intelligent positioning** below data points to avoid overlap
+- **Interactive** - Click labels to view full information
+- **Smart collision detection** prevents labels from overlapping each other
+
 ### Data-Driven Sizing
 If your data includes a `chart_position` field (e.g., "#1", "#18", "#50"), the map automatically scales point sizes and border widths to show visual importance:
 - **Top positions** (e.g., #1-5): Large circles (14-16px) with thick borders (2.5-3px)
@@ -278,11 +286,12 @@ As time progresses, older data points gradually fade to create a beautiful "trai
 When you play the animation, you'll see new entries appear brightly while older ones fade into the background. This creates a dynamic visualization where you can watch patterns emerge over time while maintaining awareness of the full historical context.
 
 ### Example: Music Chart Visualization
-The included Sonics timeline dataset demonstrates all three features perfectly:
+The included Sonics timeline dataset demonstrates all features perfectly:
 - **Color** shows WHAT charted (each song has its own color from the legend)
 - **Size** shows HOW WELL it charted (#1 hits are large, #50 is small)
 - **Opacity** shows HOW RECENT (bright = current, faded = older)
-- **Combined effect**: Watch songs chart across cities with the most impactful recent hits standing out prominently
+- **Labels** show WHERE it charted (city names in bold, dark text)
+- **Combined effect**: Watch songs chart across cities with the most impactful recent hits standing out prominently while city names remain clearly visible
 
 ## Example Use Cases
 

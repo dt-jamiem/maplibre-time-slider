@@ -227,6 +227,41 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           }
         });
 
+        // Detect the city/location field name
+        let cityField = null;
+        const locationFields = ['city', 'location', 'station', 'place', 'name'];
+        for (const field of locationFields) {
+          if (firstFeature?.properties?.[field] && field !== colorProperty) {
+            cityField = field;
+            break;
+          }
+        }
+
+        // Add city labels in dark font
+        if (cityField) {
+          mapInstance.addLayer({
+            id: 'city-labels',
+            type: 'symbol',
+            source: 'time-data',
+            filter: ['==', '$type', 'Point'],
+            layout: {
+              'text-field': ['get', cityField],
+              'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+              'text-size': 13,
+              'text-offset': [0, 1.5],
+              'text-anchor': 'top',
+              'text-allow-overlap': false,
+              'text-ignore-placement': false
+            },
+            paint: {
+              'text-color': '#1f2937',  // Dark gray, almost black
+              'text-halo-color': '#ffffff',
+              'text-halo-width': 2,
+              'text-halo-blur': 1
+            }
+          });
+        }
+
         mapInstance.addLayer({
           id: 'lines',
           type: 'line',
@@ -261,7 +296,11 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
         });
 
         // Add popup on click
-        mapInstance.on('click', ['points', 'lines', 'polygons'], (e) => {
+        const interactiveLayers = cityField
+          ? ['points', 'city-labels', 'lines', 'polygons']
+          : ['points', 'lines', 'polygons'];
+
+        mapInstance.on('click', interactiveLayers, (e) => {
           if (e.features.length > 0) {
             const feature = e.features[0];
             const properties = feature.properties;
@@ -278,11 +317,11 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
         });
 
         // Change cursor on hover
-        mapInstance.on('mouseenter', ['points', 'lines', 'polygons'], () => {
+        mapInstance.on('mouseenter', interactiveLayers, () => {
           mapInstance.getCanvas().style.cursor = 'pointer';
         });
 
-        mapInstance.on('mouseleave', ['points', 'lines', 'polygons'], () => {
+        mapInstance.on('mouseleave', interactiveLayers, () => {
           mapInstance.getCanvas().style.cursor = '';
         });
       }
