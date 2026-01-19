@@ -198,7 +198,7 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
             'circle-color': circleColorExpression,
             'circle-stroke-width': strokeWidthExpression,
             'circle-stroke-color': '#ffffff',
-            'circle-opacity': 0.85
+            'circle-opacity': 0.85  // Will be updated dynamically for fade effect
           }
         });
 
@@ -273,8 +273,24 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
 
     if (source) {
       source.setData(filterDataByTime(data, currentTime, timeField));
+
+      // Update opacity to create fade effect for older entries
+      // Calculate the time window for fading (e.g., last 20% of visible time range)
+      const fadeWindow = (currentTime - timeRange.min) * 0.3; // Fade over last 30% of time range
+      const fadeStartTime = currentTime - fadeWindow;
+
+      // Only apply fade if we have a reasonable time range
+      if (fadeWindow > 0 && mapInstance.getLayer('points')) {
+        mapInstance.setPaintProperty('points', 'circle-opacity', [
+          'interpolate',
+          ['linear'],
+          ['get', timeField],
+          fadeStartTime, 0.4,  // Older entries fade to 40%
+          currentTime, 0.85    // Most recent entries at 85%
+        ]);
+      }
     }
-  }, [currentTime, data, timeField]);
+  }, [currentTime, data, timeField, timeRange]);
 
   // Play/pause functionality
   useEffect(() => {
