@@ -237,7 +237,13 @@ The map automatically detects categorical properties in your data and assigns di
 - `name` - For named entities or categories
 - `category`, `type`, `class` - For general categorization
 
-Each unique value gets assigned one of 12 vibrant, distinguishable colors. An interactive legend appears in the top-right corner showing the color mapping.
+**Intelligent Frequency-Based Assignment:**
+- The system counts how often each value appears in your dataset
+- Most frequent values get priority colors (strong, distinctive hues)
+- Less frequent values receive automatic assignments from remaining colors
+- For the Sonics dataset: The Witch (most charted) gets green, Psycho gets purple, etc.
+
+An interactive legend appears in the top-right corner showing the color mapping, sorted by frequency with the most common items at the top.
 
 ### Data-Driven Sizing
 If your data includes a `chart_position` field (e.g., "#1", "#18", "#50"), the map automatically scales point sizes and border widths to show visual importance:
