@@ -55,7 +55,7 @@ function App() {
         center: customDataInfo?.stats?.timeRange
           ? calculateCenter(customData)
           : [0, 0],
-        zoom: 2,
+        zoom: 8, // Start zoomed in - will auto-adjust as data appears
         title: customDataInfo?.filename || 'Custom Data'
       }
     : (datasets[selectedDataset] || datasets['cities'])

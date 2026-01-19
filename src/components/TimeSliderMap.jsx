@@ -296,7 +296,8 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
     const source = mapInstance.getSource('time-data');
 
     if (source) {
-      source.setData(filterDataByTime(data, currentTime, timeField));
+      const filteredData = filterDataByTime(data, currentTime, timeField);
+      source.setData(filteredData);
 
       // Update opacity to create fade effect for older entries
       // Calculate the time window for fading (e.g., last 20% of visible time range)
@@ -312,6 +313,35 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           fadeStartTime, 0.4,  // Older entries fade to 40%
           currentTime, 0.85    // Most recent entries at 85%
         ]);
+      }
+
+      // Dynamic zoom: adjust map bounds to fit all visible features
+      if (filteredData.features.length > 0) {
+        // Calculate bounds of all visible features
+        let minLng = Infinity, maxLng = -Infinity;
+        let minLat = Infinity, maxLat = -Infinity;
+
+        filteredData.features.forEach(feature => {
+          if (feature.geometry.type === 'Point') {
+            const [lng, lat] = feature.geometry.coordinates;
+            minLng = Math.min(minLng, lng);
+            maxLng = Math.max(maxLng, lng);
+            minLat = Math.min(minLat, lat);
+            maxLat = Math.max(maxLat, lat);
+          }
+        });
+
+        // Only update bounds if we found valid coordinates
+        if (minLng !== Infinity) {
+          mapInstance.fitBounds(
+            [[minLng, minLat], [maxLng, maxLat]],
+            {
+              padding: { top: 80, bottom: 100, left: 80, right: 320 }, // Extra right padding for legend
+              duration: 1000, // Smooth 1-second animation
+              maxZoom: 10 // Don't zoom in too close
+            }
+          );
+        }
       }
     }
   }, [currentTime, data, timeField, timeRange]);
