@@ -14,6 +14,7 @@ An interactive map component with a time slider for visualizing geographic data 
 - **Data-driven sizing** - Visual importance based on data values (e.g., chart positions)
 - **Temporal fade effect** - Older entries gradually fade to 40% opacity while recent ones stay bright
 - **Cinematic 4:3 aspect ratio** - Wider map format perfect for showcasing geographic spread
+- **Extended timeline** - Timeline starts 1 month before first data point and ends 1 month after last data point to ensure all data is visible
 - **Support for multiple geometry types**: Points, LineStrings, and Polygons
 - **Click on features** to view detailed information in popups
 - **Full map controls**: Pan, zoom, and navigation
