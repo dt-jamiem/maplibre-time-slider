@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "capture": "node scripts/capture-timeline.js"
   },
   "dependencies": {
     "maplibre-gl": "^5.16.0",
@@ -23,6 +24,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "puppeteer": "^24.35.0",
     "vite": "^7.2.4"
   }
 }
