@@ -145,6 +145,48 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           ];
         }
 
+        // Parse chart position for size scaling
+        // Converts "#1" to 1, "#18" to 18, etc.
+        const parseChartPosition = ['to-number',
+          ['slice', ['get', 'chart_position'], 1]
+        ];
+
+        // Create size expression based on chart position
+        // Better positions (lower numbers) = bigger circles
+        // #1-5: 16px, #6-10: 12px, #11-20: 9px, #21+: 6px
+        const circleSizeExpression = [
+          'case',
+          ['has', 'chart_position'],
+          [
+            'interpolate',
+            ['linear'],
+            parseChartPosition,
+            1, 16,    // #1 = 16px
+            5, 14,    // #5 = 14px
+            10, 11,   // #10 = 11px
+            20, 8,    // #20 = 8px
+            50, 6     // #50 = 6px
+          ],
+          8 // default size if no chart_position
+        ];
+
+        // Create stroke width expression based on chart position
+        // Top hits get thicker borders
+        const strokeWidthExpression = [
+          'case',
+          ['has', 'chart_position'],
+          [
+            'interpolate',
+            ['linear'],
+            parseChartPosition,
+            1, 3,     // #1 = 3px stroke
+            5, 2.5,   // #5 = 2.5px stroke
+            20, 2,    // #20 = 2px stroke
+            50, 1.5   // #50 = 1.5px stroke
+          ],
+          2 // default stroke width
+        ];
+
         // Add layers for different geometry types
         mapInstance.addLayer({
           id: 'points',
@@ -152,9 +194,9 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           source: 'time-data',
           filter: ['==', '$type', 'Point'],
           paint: {
-            'circle-radius': 8,
+            'circle-radius': circleSizeExpression,
             'circle-color': circleColorExpression,
-            'circle-stroke-width': 2,
+            'circle-stroke-width': strokeWidthExpression,
             'circle-stroke-color': '#ffffff',
             'circle-opacity': 0.85
           }
