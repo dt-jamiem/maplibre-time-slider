@@ -263,6 +263,9 @@ An interactive legend appears in the top-right corner showing the color mapping,
 ### Prominent City Labels
 When your data includes location information (fields like `city`, `location`, `station`, or `place`), the map automatically displays these labels in a dark, bold font that stands out from the base map. Features include:
 - **Always visible** - All cities that will be mapped appear from the start, giving context before data appears
+- **Intelligent prioritization** - Cities with more data points are prioritized and displayed with larger text
+- **Importance-based sizing** - Cities with 50+ data points get 15px text, while smaller cities get 12px
+- **Guaranteed visibility** - Most important cities (like Seattle and Tacoma) are always shown, even when crowded
 - **Dark gray text** (#1f2937) for high contrast and readability
 - **White halo effect** around labels to ensure visibility against any background
 - **Intelligent positioning** below data points to avoid overlap

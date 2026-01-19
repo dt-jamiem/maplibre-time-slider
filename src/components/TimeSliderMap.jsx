@@ -239,19 +239,37 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
 
         // Create a separate source for all cities (not filtered by time)
         if (cityField) {
-          // Extract unique cities with their coordinates
+          // Extract unique cities with their coordinates and count occurrences
           const cityMap = new Map();
+          const cityCounts = new Map();
+
           data.features.forEach(feature => {
             if (feature.geometry.type === 'Point') {
               const cityName = feature.properties[cityField];
-              if (cityName && !cityMap.has(cityName)) {
-                cityMap.set(cityName, {
-                  type: 'Feature',
-                  geometry: feature.geometry,
-                  properties: { [cityField]: cityName }
-                });
+              if (cityName) {
+                cityCounts.set(cityName, (cityCounts.get(cityName) || 0) + 1);
+
+                if (!cityMap.has(cityName)) {
+                  cityMap.set(cityName, {
+                    type: 'Feature',
+                    geometry: feature.geometry,
+                    properties: {
+                      [cityField]: cityName,
+                      dataPointCount: 0  // Will be updated below
+                    }
+                  });
+                }
               }
             }
+          });
+
+          // Update counts and calculate max for priority scaling
+          const maxCount = Math.max(...cityCounts.values());
+          cityMap.forEach((feature, cityName) => {
+            const count = cityCounts.get(cityName) || 0;
+            feature.properties.dataPointCount = count;
+            // Priority: higher count = higher priority (inverse of count for sort-key)
+            feature.properties.priority = maxCount - count;
           });
 
           const allCitiesData = {
@@ -265,7 +283,7 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
             data: allCitiesData
           });
 
-          // Add city labels in dark font (always visible)
+          // Add city labels in dark font with priority sorting
           mapInstance.addLayer({
             id: 'city-labels',
             type: 'symbol',
@@ -273,11 +291,20 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
             layout: {
               'text-field': ['get', cityField],
               'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
-              'text-size': 13,
+              'text-size': [
+                'interpolate',
+                ['linear'],
+                ['get', 'dataPointCount'],
+                1, 12,     // Cities with 1 data point: 12px
+                10, 13,    // Cities with 10 data points: 13px
+                20, 14,    // Cities with 20+ data points: 14px
+                50, 15     // Cities with 50+ data points: 15px (like Seattle/Tacoma)
+              ],
               'text-offset': [0, 1.5],
               'text-anchor': 'top',
               'text-allow-overlap': false,
-              'text-ignore-placement': false
+              'text-optional': false,  // Don't hide text when icon is hidden
+              'symbol-sort-key': ['get', 'priority']  // Lower priority number = displayed first
             },
             paint: {
               'text-color': '#1f2937',  // Dark gray, almost black
