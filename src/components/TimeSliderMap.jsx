@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import './TimeSliderMap.css';
+import Legend from './Legend';
 
 const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], initialZoom = 2 }) => {
   const mapContainer = useRef(null);
@@ -79,12 +80,70 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
 
     const mapInstance = map.current;
 
+    // Create a color map based on unique values in the data
+    const createColorMap = (geojson, propertyName) => {
+      const uniqueValues = new Set();
+      geojson.features.forEach(feature => {
+        const value = feature.properties[propertyName];
+        if (value) uniqueValues.add(value);
+      });
+
+      // Color palette - vibrant and distinguishable colors
+      const colors = [
+        '#ef4444', // red
+        '#f59e0b', // amber
+        '#10b981', // emerald
+        '#3b82f6', // blue
+        '#8b5cf6', // violet
+        '#ec4899', // pink
+        '#06b6d4', // cyan
+        '#84cc16', // lime
+        '#f97316', // orange
+        '#6366f1', // indigo
+        '#14b8a6', // teal
+        '#a855f7'  // purple
+      ];
+
+      const colorMap = {};
+      Array.from(uniqueValues).forEach((value, index) => {
+        colorMap[value] = colors[index % colors.length];
+      });
+
+      return colorMap;
+    };
+
     mapInstance.on('load', () => {
       if (!mapInstance.getSource('time-data')) {
         mapInstance.addSource('time-data', {
           type: 'geojson',
           data: filterDataByTime(data, currentTime, timeField)
         });
+
+        // Detect if data has a categorical property to color by
+        const firstFeature = data.features[0];
+        let colorProperty = null;
+        let colorMap = null;
+
+        // Check for common categorical properties
+        const categoricalFields = ['song', 'name', 'category', 'type', 'class'];
+        for (const field of categoricalFields) {
+          if (firstFeature?.properties?.[field]) {
+            colorProperty = field;
+            colorMap = createColorMap(data, field);
+            break;
+          }
+        }
+
+        // Create color expression for data-driven styling
+        let circleColorExpression = '#3b82f6'; // default color
+        if (colorProperty && colorMap) {
+          circleColorExpression = [
+            'match',
+            ['get', colorProperty],
+            ...Object.entries(colorMap).flat(),
+            '#3b82f6' // fallback color
+          ];
+        }
 
         // Add layers for different geometry types
         mapInstance.addLayer({
@@ -93,10 +152,11 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
           source: 'time-data',
           filter: ['==', '$type', 'Point'],
           paint: {
-            'circle-radius': 6,
-            'circle-color': '#3b82f6',
+            'circle-radius': 8,
+            'circle-color': circleColorExpression,
             'circle-stroke-width': 2,
-            'circle-stroke-color': '#ffffff'
+            'circle-stroke-color': '#ffffff',
+            'circle-opacity': 0.85
           }
         });
 
@@ -217,6 +277,7 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
   return (
     <div className="time-slider-map">
       <div ref={mapContainer} className="map-container" />
+      <Legend data={data} colorProperty="song" />
 
       <div className="time-controls">
         <button

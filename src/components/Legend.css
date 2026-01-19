@@ -1,0 +1,127 @@
+.legend {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  min-width: 200px;
+  max-width: 280px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.legend-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.legend-header:hover {
+  background-color: #f9fafb;
+}
+
+.legend-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.legend-toggle {
+  background: none;
+  border: none;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.legend-items {
+  padding: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  gap: 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.legend-item:hover {
+  background-color: #f3f4f6;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.legend-label {
+  font-size: 13px;
+  color: #374151;
+  flex: 1;
+  word-break: break-word;
+}
+
+.legend.collapsed .legend-items {
+  display: none;
+}
+
+/* Scrollbar styling for legend items */
+.legend-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.legend-items::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.legend-items::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 3px;
+}
+
+.legend-items::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .legend {
+    top: 10px;
+    right: 10px;
+    min-width: 160px;
+    max-width: 200px;
+  }
+
+  .legend-header {
+    padding: 10px 12px;
+  }
+
+  .legend-title {
+    font-size: 13px;
+  }
+
+  .legend-label {
+    font-size: 12px;
+  }
+
+  .legend-color {
+    width: 14px;
+    height: 14px;
+  }
+}
