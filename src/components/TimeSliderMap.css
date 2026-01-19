@@ -29,7 +29,7 @@
   backdrop-filter: blur(10px);
 }
 
-.play-button {
+.play-button, .step-button {
   background: #3b82f6;
   color: white;
   border: none;
@@ -45,12 +45,22 @@
   flex-shrink: 0;
 }
 
-.play-button:hover {
+.play-button:hover, .step-button:hover {
   background: #2563eb;
 }
 
-.play-button:active {
+.play-button:active, .step-button:active {
   background: #1d4ed8;
+}
+
+.step-button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.step-button {
+  font-size: 14px;
 }
 
 .slider-container {

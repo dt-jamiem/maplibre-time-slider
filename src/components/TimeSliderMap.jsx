@@ -356,6 +356,18 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
     return timestamp;
   };
 
+  const stepMonth = (direction) => {
+    const currentDate = new Date(currentTime);
+    const newDate = new Date(currentDate);
+    newDate.setMonth(currentDate.getMonth() + direction);
+
+    const newTime = newDate.getTime();
+    if (newTime >= timeRange.min && newTime <= timeRange.max) {
+      setCurrentTime(newTime);
+      setIsPlaying(false);
+    }
+  };
+
   return (
     <div className="time-slider-map">
       <div ref={mapContainer} className="map-container" />
@@ -363,10 +375,28 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
 
       <div className="time-controls">
         <button
+          onClick={() => stepMonth(-1)}
+          className="step-button"
+          disabled={currentTime <= timeRange.min}
+          title="Previous Month"
+        >
+          ◀
+        </button>
+
+        <button
           onClick={() => setIsPlaying(!isPlaying)}
           className="play-button"
         >
           {isPlaying ? '⏸' : '▶'}
+        </button>
+
+        <button
+          onClick={() => stepMonth(1)}
+          className="step-button"
+          disabled={currentTime >= timeRange.max}
+          title="Next Month"
+        >
+          ▶
         </button>
 
         <div className="slider-container">

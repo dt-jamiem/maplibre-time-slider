@@ -34,11 +34,8 @@ async function captureTimeline() {
   // Launch browser (visible so you can interact with it)
   const browser = await puppeteer.launch({
     headless: false, // Make browser visible!
-    defaultViewport: {
-      width: 1920,
-      height: 1440,
-      deviceScaleFactor: 2 // 2x for high resolution
-    }
+    defaultViewport: null, // Let browser be full size
+    args: ['--start-maximized'] // Start maximized
   });
 
   const page = await browser.newPage();
@@ -93,6 +90,23 @@ async function captureTimeline() {
   console.log('\n✓ Proceeding with capture...');
   console.log('Waiting for map to fully update...\n');
   await delay(5000); // Give more time for the map to update
+
+  // Hide the legend for cleaner screenshots
+  await page.evaluate(() => {
+    const legend = document.querySelector('.legend');
+    if (legend) {
+      legend.style.display = 'none';
+    }
+  });
+
+  // Get actual viewport dimensions
+  const viewport = await page.evaluate(() => ({
+    width: window.innerWidth,
+    height: window.innerHeight,
+    devicePixelRatio: window.devicePixelRatio
+  }));
+
+  console.log(`Viewport: ${viewport.width}x${viewport.height} @ ${viewport.devicePixelRatio}x DPR`);
 
   // Get the time range from the slider
   let timeInfo = await page.evaluate(() => {
@@ -161,12 +175,7 @@ async function captureTimeline() {
     await page.screenshot({
       path: filepath,
       type: 'png',
-      clip: {
-        x: 0,
-        y: 0,
-        width: 1920,
-        height: 1440
-      }
+      fullPage: false // Capture visible viewport only
     });
 
     console.log(`✓ Captured: ${filename} (${new Date(timestamp).toDateString()})`);
