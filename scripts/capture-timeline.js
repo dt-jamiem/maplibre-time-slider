@@ -45,7 +45,22 @@ async function captureTimeline() {
   await delay(2000);
 
   // Check if data is loaded by looking at the time slider
-  console.log('Checking if data is loaded...');
+  console.log('Checking if data is loaded...\n');
+
+  // First, let's see what values we have
+  const sliderDebug = await page.evaluate(() => {
+    const slider = document.querySelector('.time-slider');
+    if (!slider) return { exists: false };
+
+    return {
+      exists: true,
+      min: slider.min,
+      max: slider.max,
+      value: slider.value
+    };
+  });
+
+  console.log('Slider debug info:', sliderDebug);
 
   let timeInfo = await page.evaluate(() => {
     const slider = document.querySelector('.time-slider');
@@ -78,26 +93,33 @@ async function captureTimeline() {
     while (!timeInfo && attempts < 150) { // 5 minutes max
       await delay(2000);
 
-      timeInfo = await page.evaluate(() => {
+      const debugInfo = await page.evaluate(() => {
         const slider = document.querySelector('.time-slider');
-        if (!slider) return null;
+        if (!slider) return { exists: false };
 
         const min = parseFloat(slider.min);
         const max = parseFloat(slider.max);
 
-        if (min < max && min > 0) {
-          return {
-            min: min,
-            max: max,
-            current: parseFloat(slider.value)
-          };
-        }
-        return null;
+        return {
+          exists: true,
+          min: min,
+          max: max,
+          value: parseFloat(slider.value),
+          isValid: (min < max && min > 0)
+        };
       });
 
+      if (debugInfo.isValid) {
+        timeInfo = {
+          min: debugInfo.min,
+          max: debugInfo.max,
+          current: debugInfo.value
+        };
+      }
+
       attempts++;
-      if (attempts % 15 === 0) {
-        console.log(`   Still waiting... (${attempts * 2} seconds elapsed)`);
+      if (attempts % 5 === 0) {
+        console.log(`   Still waiting... (${attempts * 2}s) - Slider: min=${debugInfo.min}, max=${debugInfo.max}, valid=${debugInfo.isValid}`);
       }
     }
 
