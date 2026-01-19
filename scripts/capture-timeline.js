@@ -44,9 +44,13 @@ async function captureTimeline() {
   // Give MapLibre time to render
   await delay(2000);
 
-  // Check if we need to load custom data
-  const uploadButtonExists = await page.$('button:has-text("📤 Upload Data")');
-  if (uploadButtonExists) {
+  // Check if custom data is loaded
+  const hasCustomData = await page.evaluate(() => {
+    const buttons = Array.from(document.querySelectorAll('button'));
+    return buttons.some(btn => btn.textContent.includes('✓ Custom Data'));
+  });
+
+  if (!hasCustomData) {
     console.log('\n⚠️  Please load your data first:');
     console.log('   1. Keep this script running');
     console.log('   2. Open http://localhost:5174 in your browser');
@@ -54,8 +58,15 @@ async function captureTimeline() {
     console.log('   4. Upload your CSV/GeoJSON file');
     console.log('   5. This script will automatically continue once data is loaded\n');
 
-    // Wait for custom data to be loaded (button text changes to "✓ Custom Data")
-    await page.waitForSelector('button:has-text("✓ Custom Data")', { timeout: 300000 }); // 5 minute timeout
+    // Wait for custom data to be loaded
+    await page.waitForFunction(
+      () => {
+        const buttons = Array.from(document.querySelectorAll('button'));
+        return buttons.some(btn => btn.textContent.includes('✓ Custom Data'));
+      },
+      { timeout: 300000 } // 5 minute timeout
+    );
+
     console.log('✓ Data loaded! Starting capture...\n');
 
     // Give it a moment to render
