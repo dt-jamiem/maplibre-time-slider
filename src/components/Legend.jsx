@@ -8,39 +8,55 @@ const Legend = ({ data, colorProperty = 'song' }) => {
     return null;
   }
 
-  // Extract unique values for the color property
-  const uniqueValues = new Set();
+  // Count frequency of each value
+  const valueCounts = {};
   data.features.forEach(feature => {
     const value = feature.properties[colorProperty];
-    if (value) uniqueValues.add(value);
+    if (value) {
+      valueCounts[value] = (valueCounts[value] || 0) + 1;
+    }
   });
 
-  if (uniqueValues.size === 0) {
+  if (Object.keys(valueCounts).length === 0) {
     return null;
   }
 
-  // Color palette (must match TimeSliderMap)
-  const colors = [
-    '#ef4444', // red
-    '#f59e0b', // amber
-    '#10b981', // emerald
+  // Sort by frequency (most common first)
+  const sortedValues = Object.entries(valueCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(entry => entry[0]);
+
+  // Priority color assignments for specific songs (must match TimeSliderMap)
+  const priorityColors = {
+    'The Witch': '#10b981',                        // emerald green
+    'Psycho': '#8b5cf6',                           // purple
+    "You've Got Your Head On Backwards": '#ef4444', // red
+    "Don't Be Afraid of the Dark": '#f97316'       // orange
+  };
+
+  // Remaining colors for other songs
+  const remainingColors = [
     '#3b82f6', // blue
-    '#8b5cf6', // violet
     '#ec4899', // pink
     '#06b6d4', // cyan
     '#84cc16', // lime
-    '#f97316', // orange
+    '#f59e0b', // amber
     '#6366f1', // indigo
     '#14b8a6', // teal
-    '#a855f7'  // purple
+    '#a855f7'  // lighter purple
   ];
 
-  const legendItems = Array.from(uniqueValues)
-    .sort()
-    .map((value, index) => ({
-      value,
-      color: colors[index % colors.length]
-    }));
+  let remainingColorIndex = 0;
+  const legendItems = sortedValues.map((value) => {
+    let color;
+    if (priorityColors[value]) {
+      color = priorityColors[value];
+    } else {
+      color = remainingColors[remainingColorIndex % remainingColors.length];
+      remainingColorIndex++;
+    }
+    return { value, color };
+  });
 
   return (
     <div className={`legend ${isCollapsed ? 'collapsed' : ''}`}>

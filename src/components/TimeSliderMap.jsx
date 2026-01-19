@@ -82,31 +82,50 @@ const TimeSliderMap = ({ data, timeField = 'timestamp', initialCenter = [0, 0], 
 
     // Create a color map based on unique values in the data
     const createColorMap = (geojson, propertyName) => {
-      const uniqueValues = new Set();
+      // Count frequency of each value
+      const valueCounts = {};
       geojson.features.forEach(feature => {
         const value = feature.properties[propertyName];
-        if (value) uniqueValues.add(value);
+        if (value) {
+          valueCounts[value] = (valueCounts[value] || 0) + 1;
+        }
       });
 
-      // Color palette - vibrant and distinguishable colors
-      const colors = [
-        '#ef4444', // red
-        '#f59e0b', // amber
-        '#10b981', // emerald
+      // Sort by frequency (most common first)
+      const sortedValues = Object.entries(valueCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(entry => entry[0]);
+
+      // Priority color assignments for specific songs
+      const priorityColors = {
+        'The Witch': '#10b981',                        // emerald green
+        'Psycho': '#8b5cf6',                           // purple
+        "You've Got Your Head On Backwards": '#ef4444', // red
+        "Don't Be Afraid of the Dark": '#f97316'       // orange
+      };
+
+      // Remaining colors for other songs
+      const remainingColors = [
         '#3b82f6', // blue
-        '#8b5cf6', // violet
         '#ec4899', // pink
         '#06b6d4', // cyan
         '#84cc16', // lime
-        '#f97316', // orange
+        '#f59e0b', // amber
         '#6366f1', // indigo
         '#14b8a6', // teal
-        '#a855f7'  // purple
+        '#a855f7'  // lighter purple
       ];
 
       const colorMap = {};
-      Array.from(uniqueValues).forEach((value, index) => {
-        colorMap[value] = colors[index % colors.length];
+      let remainingColorIndex = 0;
+
+      sortedValues.forEach((value) => {
+        if (priorityColors[value]) {
+          colorMap[value] = priorityColors[value];
+        } else {
+          colorMap[value] = remainingColors[remainingColorIndex % remainingColors.length];
+          remainingColorIndex++;
+        }
       });
 
       return colorMap;
