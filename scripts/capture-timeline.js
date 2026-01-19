@@ -57,16 +57,38 @@ async function captureTimeline() {
   // Give MapLibre time to render
   await delay(2000);
 
-  // Prompt user to load data
-  console.log('\n📋 INSTRUCTIONS:');
-  console.log('   A Chrome browser window should have opened automatically.');
-  console.log('   In that browser window:');
-  console.log('   1. Click "📤 Upload Data" button');
-  console.log('   2. Upload your sonics_timeline_transformed.csv file');
-  console.log('   3. Wait for the map to show your data');
-  console.log('   4. Come back to this terminal and press ENTER\n');
+  // Click the upload button
+  console.log('\nClicking Upload Data button...');
+  await page.evaluate(() => {
+    const buttons = Array.from(document.querySelectorAll('button'));
+    const uploadButton = buttons.find(btn => btn.textContent.includes('📤 Upload Data'));
+    if (uploadButton) {
+      uploadButton.click();
+    }
+  });
 
-  await waitForEnter();
+  await delay(1000);
+
+  // Find the file input and upload the file
+  console.log('Uploading sonics_timeline_transformed.csv...');
+
+  const fileInputSelector = 'input[type="file"]';
+  await page.waitForSelector(fileInputSelector, { timeout: 5000 });
+
+  const filePath = join(__dirname, '../public/examples/sonics_timeline_transformed.csv');
+  const fileInput = await page.$(fileInputSelector);
+
+  if (fileInput) {
+    await fileInput.uploadFile(filePath);
+    console.log('✓ File uploaded! Waiting for data to process...\n');
+
+    // Wait for the data to be processed
+    await delay(3000);
+  } else {
+    console.error('✗ Could not find file input');
+    await browser.close();
+    return;
+  }
 
   console.log('\n✓ Proceeding with capture...');
   console.log('Waiting for map to fully update...\n');
