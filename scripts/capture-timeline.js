@@ -6,6 +6,9 @@ import { mkdirSync, existsSync } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Helper function to wait/delay
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 async function captureTimeline() {
   console.log('Starting timeline capture...');
 
@@ -39,7 +42,7 @@ async function captureTimeline() {
   await page.waitForSelector('.map-container canvas', { timeout: 10000 });
 
   // Give MapLibre time to render
-  await page.waitForTimeout(2000);
+  await delay(2000);
 
   // Check if we need to load custom data
   const uploadButtonExists = await page.$('button:has-text("📤 Upload Data")');
@@ -56,7 +59,7 @@ async function captureTimeline() {
     console.log('✓ Data loaded! Starting capture...\n');
 
     // Give it a moment to render
-    await page.waitForTimeout(2000);
+    await delay(2000);
   } else {
     console.log('✓ Data already loaded\n');
   }
@@ -103,7 +106,7 @@ async function captureTimeline() {
     }, timestamp);
 
     // Wait for map to update
-    await page.waitForTimeout(1500);
+    await delay(1500);
 
     // Take screenshot
     const filename = `${String(index).padStart(3, '0')}_${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}.png`;
