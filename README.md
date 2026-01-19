@@ -142,45 +142,57 @@ Standard GeoJSON FeatureCollection with a `timestamp` property in each feature.
 
 ## Embedding in a Blog Post or Website
 
-After building the project, you can embed the map as a custom HTML element:
+After building the project, you can embed the map as a custom HTML element.
 
-### 1. Include the JavaScript file
+### Quick Start
 
-```html
-<script src="https://your-domain.com/embed.js"></script>
-```
+1. **Build the embeddable version:**
+   ```bash
+   npm run build
+   ```
 
-### 2. Add the map element
+2. **Host the files** (see [WORDPRESS_EMBED_GUIDE.md](WORDPRESS_EMBED_GUIDE.md) for detailed hosting options)
 
-#### Option A: Load data from a URL
+3. **Add to your webpage:**
+   ```html
+   <script src="https://your-domain.com/embed.js"></script>
 
-```html
-<time-slider-map
-  data-url="https://your-domain.com/data.geojson"
-  center="-95,37"
-  zoom="3.5"
-  time-field="timestamp"
-></time-slider-map>
-```
+   <time-slider-map
+     data-url="https://your-domain.com/data.geojson"
+     center="-95,37"
+     zoom="3.5"
+     time-field="timestamp"
+   ></time-slider-map>
+   ```
 
-#### Option B: Inline JSON data
+### Embedding in WordPress
 
-```html
-<time-slider-map
-  data-json='{"type":"FeatureCollection","features":[...]}'
-  center="-95,37"
-  zoom="3.5"
-  time-field="timestamp"
-></time-slider-map>
-```
+See the comprehensive **[WordPress Embedding Guide](WORDPRESS_EMBED_GUIDE.md)** for step-by-step instructions including:
+- Using GitHub Pages for free hosting
+- Adding Custom HTML blocks in WordPress
+- Troubleshooting common issues
+- Converting CSV data to GeoJSON
 
 ### Attributes
 
 - `data-url`: URL to a GeoJSON file
-- `data-json`: Inline GeoJSON string
+- `data-json`: Inline GeoJSON string (alternative to data-url)
 - `center`: Map center as "longitude,latitude" (default: "0,0")
 - `zoom`: Initial zoom level (default: "2")
 - `time-field`: Property name containing the timestamp (default: "timestamp")
+
+### Example: The Sonics Timeline
+
+```html
+<script src="https://your-domain.com/embed.js"></script>
+
+<time-slider-map
+  data-url="https://your-domain.com/sonics.geojson"
+  center="-122,45.5"
+  zoom="5.5"
+  time-field="timestamp"
+></time-slider-map>
+```
 
 ## Data Transformation Tools
 
